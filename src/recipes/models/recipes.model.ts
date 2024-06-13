@@ -6,6 +6,7 @@ export class Recipe {
   id: string;
 
   @Directive('@upper')
+  @Field(type=> String)
   title: string;
 
   @Field({nullable: true})

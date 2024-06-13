@@ -15,8 +15,8 @@ export class RecipeService {
   async findOneById(id: string): Promise<Recipe> {
     return {
       id: uuid(),
-      title: "title1",
-      description: "description1",
+      title: "title12",
+      description: "description1344",
       creationDate: new Date("2024-06-23"),
       ingredients: ["ingredients1"]
     };

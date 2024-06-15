@@ -1,25 +1,27 @@
-import { Recipe } from "./models/recipes.model";
-import {uuid} from "uuidv4"
+import { InjectModel } from '@nestjs/mongoose';
+import { uuid } from 'uuidv4';
+import { RecipeDocument } from './schemas/recipe.schema';
+import { Model } from 'mongoose';
+import { Injectable } from '@nestjs/common';
+import { Recipe } from './models/recipes.model';
 
+@Injectable()
 export class RecipeService {
-  async create(recipe: {title: string, description: string, ingredients: string[]}): Promise<Recipe> {
-    console.log('Line no => 6', recipe)
-    return {
-      id: uuid(),
-      title: "title1",
-      description: "description1",
-      creationDate: new Date("2024-06-23"),
-      ingredients: ["ingredients1"]
-    };
+  constructor(
+    @InjectModel(Recipe.name) private recipeModel: Model<RecipeDocument>,
+  ) {}
+
+  async create(recipe: {
+    title: string;
+    description: string;
+    ingredients: string[];
+  }): Promise<Recipe> {
+    const newRecipe = new this.recipeModel({ ...recipe, id: uuid() });
+    return newRecipe.save();
   }
+
   async findOneById(id: string): Promise<Recipe> {
-    return {
-      id: uuid(),
-      title: "title12",
-      description: "description1344",
-      creationDate: new Date("2024-06-23"),
-      ingredients: ["ingredients1"]
-    };
+    return this.recipeModel.findById(id).exec();
   }
 
   // async findAll(recipesArgs: RecipesArgs): Promise<Recipe[]> {

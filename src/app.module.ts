@@ -7,11 +7,15 @@ import { ConfigModule } from '@nestjs/config';
 import { RecipesModule } from './recipes/recipes.module';
 import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
 import { GraphQLDirective, DirectiveLocation } from 'graphql';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
+    DatabaseModule,
     RecipesModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       autoSchemaFile: 'src/schema.gql',
       driver: ApolloDriver,

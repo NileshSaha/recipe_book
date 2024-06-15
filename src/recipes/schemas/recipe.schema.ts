@@ -7,9 +7,6 @@ export type RecipeDocument = RecipeInterface & Document;
 @Schema()
 export class Recipe {
   @Prop({ required: true })
-  id: string;
-
-  @Prop({ required: true })
   title: string;
 
   @Prop({ required: false })

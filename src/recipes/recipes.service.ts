@@ -1,9 +1,9 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { uuid } from 'uuidv4';
 import { RecipeDocument } from './schemas/recipe.schema';
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { Recipe } from './models/recipes.model';
+import { Recipe as RecipeInterface } from './interfaces/recipe.interface';
 
 @Injectable()
 export class RecipeService {
@@ -15,18 +15,22 @@ export class RecipeService {
     title: string;
     description: string;
     ingredients: string[];
-  }): Promise<Recipe> {
-    const newRecipe = new this.recipeModel({ ...recipe, id: uuid() });
+  }): Promise<RecipeInterface> {
+    const newRecipe = new this.recipeModel(recipe);
     return newRecipe.save();
   }
 
-  async findOneById(id: string): Promise<Recipe> {
+  async findOneById(id: string): Promise<RecipeInterface> {
     return this.recipeModel.findById(id).exec();
   }
 
-  // async findAll(recipesArgs: RecipesArgs): Promise<Recipe[]> {
-  //   return [] as Recipe[];
-  // }
+  async findAll(title?: string): Promise<RecipeInterface[]> {
+    const filter: any = {};
+    if (title) {
+      filter.title = { $regex: title, $options: 'i' };
+    }
+    return this.recipeModel.find(filter).exec();
+  }
 
   async remove(id: string): Promise<boolean> {
     return true;

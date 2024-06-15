@@ -4,10 +4,13 @@ help:
 
 init:
 	rm -rf node_modules/ yarn*
-	npm install && npm run link:shared
+	npm install
+
+start:
+	docker compose up --build -d
 
 dev:
-	docker compose up --build -d
+	docker compose up -d
 
 down:
 	docker compose down

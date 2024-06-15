@@ -6,11 +6,13 @@ import { RecipesModule } from './recipes/recipes.module';
 import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
 import { GraphQLDirective, DirectiveLocation } from 'graphql';
 import { DatabaseModule } from './database/database.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     DatabaseModule,
     RecipesModule,
+    UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
